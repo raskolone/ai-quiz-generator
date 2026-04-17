@@ -3,6 +3,7 @@ from google import genai
 from dotenv import load_dotenv
 import os
 import json
+from pdf_export import quiz_to_pdf
 
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -102,6 +103,13 @@ if "pytania" in st.session_state:
         klucze = list(p["opcje"].keys())
         wybor = st.radio("", opcje, key=f"q{i}")
         st.session_state["odpowiedzi"][i] = klucze[opcje.index(wybor)]
+    pdf_bytes = quiz_to_pdf(st.session_state["pytania"])
+    st.download_button(
+    label="📥 Pobierz quiz jako PDF",
+    data=pdf_bytes,
+    file_name="quiz.pdf",
+    mime="application/pdf",
+)
 
     if st.button(T["check"]):
         wynik = 0
@@ -112,3 +120,4 @@ if "pytania" in st.session_state:
             else:
                 st.error(T["wrong"].format(n=i+1, ans=p['poprawna']))
         st.info(T["score"].format(s=wynik, t=len(st.session_state['pytania'])))
+       
