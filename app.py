@@ -88,13 +88,30 @@ language_label = st.selectbox(
 language = LANGUAGES[language_label]
 T = UI_TEXTS[language]
 
-temat = st.text_input(T["topic_label"], placeholder="np. układ słoneczny / solar system")
+source = st.radio(T["source_label"] if "source_label" in T else "Źródło quizu",
+                  ["Temat", "Tekst", "Plik"], horizontal=True)
 
-if st.button(T["generate_btn"]) and temat:
+temat = ""
+content = ""
+
+if source == "Temat":
+    temat = st.text_input(T["topic_label"], placeholder="np. układ słoneczny / solar system")
+elif source == "Tekst":
+    content = st.text_area("Wklej tekst źródłowy", height=200)
+elif source == "Plik":
+    uploaded = st.file_uploader("Wgraj PDF, DOCX lub TXT", type=["pdf", "docx", "txt"])
+    if uploaded is not None:
+        from file_reader import read_file
+        content = read_file(uploaded)
+        st.success(f"Wczytano {len(content)} znaków z pliku.")
+
+if st.button(T["generate_btn"]) and (temat or content):
     with st.spinner(T["generating"]):
-        pytania = generuj_quiz(temat, language)
+        źródło = temat if temat else content
+        pytania = generuj_quiz(źródło, language)
     st.session_state["pytania"] = pytania
     st.session_state["odpowiedzi"] = {}
+    
 
 if "pytania" in st.session_state:
     for i, p in enumerate(st.session_state["pytania"]):
