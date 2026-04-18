@@ -101,6 +101,21 @@ Ten projekt powstał jako ćwiczenie z **AI-assisted development**. Oto mój pro
 - Polityka bezpieczeństwa PowerShell blokowała aktywację `venv` — rozwiązanie: Command Prompt
 
 ---
+## 🆕 v2.0 — Konta użytkowników + historia quizów
+
+- 🔐 **Rejestracja i logowanie** przez Supabase Auth
+- 💾 **Historia quizów** — każdy zalogowany user widzi swoje poprzednie wyniki (data, temat, wynik, język)
+- 🛡 **Row Level Security** w Supabase — użytkownicy widzą tylko swoje dane
+- 🌐 Deploy produkcyjny na Streamlit Community Cloud z Supabase backendem
+
+## 🛣 Roadmap
+
+- [x] Stage 1 — wielojęzyczność + eksport PDF
+- [x] Stage 2 — import PDF/DOCX/TXT jako źródło quizu
+- [x] Stage 4 — auth + historia z Supabase + RLS
+- [ ] Stage 3 — dashboard ze statystykami (wykresy postępu)
+- [ ] Stage 5 — trwałe logowanie (cookies + auto-restore sesji)
+
 
 ## 📁 Struktura projektu
 
